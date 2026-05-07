@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Trading Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💰 Trading Pro</h1>
+            </div>
+            <nav class="nav">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <a href="goods.html" class="nav-link">Market</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="nav-link active">Register</a>
+                <a href="aboutus.html" class="nav-link">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Auth Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-form-wrapper">
+                <h2>Create Account</h2>
+                <p>Join Trading Pro and start trading today</p>
+                
+                <form class="auth-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
+                        <span class="error-message" id="fullname-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                        <span class="error-message" id="phone-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="password" name="password" placeholder="•••••••" required oninput="checkPasswordStrength()">
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">👁️</button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strength-fill"></div>
+                            </div>
+                            <span class="strength-text" id="strength-text">Enter password</span>
+                        </div>
+                        <small>Minimum 8 characters, include uppercase, lowercase, and numbers</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="confirm-password" name="confirm-password" placeholder="•••••••" required oninput="checkPasswordMatch()">
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirm-password')">👁️</button>
+                        </div>
+                        <span class="error-message" id="confirm-error"></span>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to <a href="#" class="terms-link">Terms & Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Subscribe to newsletter for trading tips and updates</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submit-btn">Create Account</button>
+                </form>
+
+                <div class="auth-link">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </div>
+            </div>
+
+            <div class="auth-illustration">
+                <div class="illustration-circle"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Status</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">in</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trading Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field.nextElementSibling;
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                field.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strengthFill = document.getElementById('strength-fill');
+            const strengthText = document.getElementById('strength-text');
+            
+            let strength = 0;
+            const checks = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                numbers: /\d/.test(password),
+                special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            };
+            
+            Object.values(checks).forEach(check => {
+                if (check) strength++;
+            });
+            
+            const strengthLevels = [
+                { width: '0%', color: '#ff4444', text: 'Enter password' },
+                { width: '20%', color: '#ff4444', text: 'Very Weak' },
+                { width: '40%', color: '#ff8800', text: 'Weak' },
+                { width: '60%', color: '#ffbb00', text: 'Fair' },
+                { width: '80%', color: '#00cc00', text: 'Good' },
+                { width: '100%', color: '#008800', text: 'Strong' }
+            ];
+            
+            const level = strengthLevels[strength];
+            strengthFill.style.width = level.width;
+            strengthFill.style.backgroundColor = level.color;
+            strengthText.textContent = level.text;
+            strengthText.style.color = level.color;
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const confirmError = document.getElementById('confirm-error');
+            
+            if (confirmPassword && password !== confirmPassword) {
+                confirmError.textContent = 'Passwords do not match';
+                confirmError.style.color = '#ff4444';
+            } else {
+                confirmError.textContent = '';
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Full name validation
+            const fullname = document.getElementById('fullname').value.trim();
+            const fullnameError = document.getElementById('fullname-error');
+            if (fullname.length < 2) {
+                fullnameError.textContent = 'Name must be at least 2 characters';
+                isValid = false;
+            } else {
+                fullnameError.textContent = '';
+            }
+            
+            // Email validation
+            const email = document.getElementById('email').value.trim();
+            const emailError = document.getElementById('email-error');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+            }
+            
+            // Phone validation (optional)
+            const phone = document.getElementById('phone').value.trim();
+            const phoneError = document.getElementById('phone-error');
+            if (phone && !/^[\d\s\-\+\(\)]+$/.test(phone)) {
+                phoneError.textContent = 'Please enter a valid phone number';
+                isValid = false;
+            } else {
+                phoneError.textContent = '';
+            }
+            
+            // Password validation
+            const password = document.getElementById('password').value;
+            if (password.length < 8) {
+                isValid = false;
+            }
+            
+            // Confirm password validation
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const confirmError = document.getElementById('confirm-error');
+            if (password !== confirmPassword) {
+                confirmError.textContent = 'Passwords do not match';
+                isValid = false;
+            } else {
+                confirmError.textContent = '';
+            }
+            
+            // Terms validation
+            const terms = document.getElementById('terms').checked;
+            if (!terms) {
+                alert('Please agree to the Terms & Conditions');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                const fullname = document.getElementById('fullname').value;
+                const email = document.getElementById('email').value;
+                const newsletter = document.getElementById('newsletter').checked;
+                
+                // Store user data (in real app, this would be sent to server)
+                localStorage.setItem('tradingProUser', JSON.stringify({
+                    fullname,
+                    email,
+                    newsletter,
+                    registeredAt: new Date().toISOString()
+                }));
+                
+                alert('Account created successfully! Redirecting to login...');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            }, 2000);
+        }
+
+        // Add input event listeners for real-time validation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fullname').addEventListener('input', function() {
+                const error = document.getElementById('fullname-error');
+                if (this.value.trim().length >= 2) {
+                    error.textContent = '';
+                }
+            });
+            
+            document.getElementById('email').addEventListener('input', function() {
+                const error = document.getElementById('email-error');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(this.value.trim())) {
+                    error.textContent = '';
+                }
+            });
+            
+            document.getElementById('phone').addEventListener('input', function() {
+                const error = document.getElementById('phone-error');
+                if (!this.value.trim() || /^[\d\s\-\+\(\)]+$/.test(this.value.trim())) {
+                    error.textContent = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

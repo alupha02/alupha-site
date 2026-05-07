@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market - Trading Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💰 Trading Pro</h1>
+            </div>
+            <nav class="nav">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <a href="goods.html" class="nav-link active">Market</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Market Section -->
+    <section class="market-section">
+        <div class="container">
+            <!-- Market Overview -->
+            <div class="market-overview">
+                <h2>Crypto Market</h2>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <h3>Market Cap</h3>
+                        <p class="stat-value">$2.1T</p>
+                        <span class="stat-change positive">+3.2%</span>
+                    </div>
+                    <div class="market-stat">
+                        <h3>24h Volume</h3>
+                        <p class="stat-value">$89.5B</p>
+                        <span class="stat-change positive">+5.7%</span>
+                    </div>
+                    <div class="market-stat">
+                        <h3>BTC Dominance</h3>
+                        <p class="stat-value">48.2%</p>
+                        <span class="stat-change negative">-0.8%</span>
+                    </div>
+                    <div class="market-stat">
+                        <h3>Active Coins</h3>
+                        <p class="stat-value">23,456</p>
+                        <span class="stat-change positive">+156</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trading Controls -->
+            <div class="trading-controls">
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Search cryptocurrencies..." class="search-input">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">All Categories</option>
+                        <option value="spot">Spot Trading</option>
+                        <option value="futures">Futures</option>
+                        <option value="defi">DeFi</option>
+                        <option value="nft">NFT</option>
+                    </select>
+                    <select id="sortBy" class="filter-select">
+                        <option value="marketCap">Market Cap</option>
+                        <option value="price">Price</option>
+                        <option value="volume24h">24h Volume</option>
+                        <option value="change24h">24h Change</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="openTradeModal()">Place Trade</button>
+            </div>
+
+            <!-- Market Table -->
+            <div class="market-table-container">
+                <table class="market-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>24h Change</th>
+                            <th>7d Change</th>
+                            <th>Market Cap</th>
+                            <th>Volume(24h)</th>
+                            <th>Circulating Supply</th>
+                            <th>Last 7 Days</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marketTableBody">
+                        <tr>
+                            <td>1</td>
+                            <td class="crypto-info">
+                                <div class="crypto-logo">₿</div>
+                                <div>
+                                    <div class="crypto-name">Bitcoin</div>
+                                    <div class="crypto-symbol">BTC</div>
+                                </div>
+                            </td>
+                            <td class="price">$45,230.50</td>
+                            <td class="change positive">+2.34%</td>
+                            <td class="change positive">+8.12%</td>
+                            <td>$883.2B</td>
+                            <td>$23.5B</td>
+                            <td>19.5M BTC</td>
+                            <td class="sparkline">📈</td>
+                            <td>
+                                <button class="btn-small btn-success" onclick="quickBuy('BTC')">Buy</button>
+                                <button class="btn-small btn-danger" onclick="quickSell('BTC')">Sell</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="crypto-info">
+                                <div class="crypto-logo">Ξ</div>
+                                <div>
+                                    <div class="crypto-name">Ethereum</div>
+                                    <div class="crypto-symbol">ETH</div>
+                                </div>
+                            </td>
+                            <td class="price">$2,450.75</td>
+                            <td class="change positive">+3.45%</td>
+                            <td class="change negative">-2.15%</td>
+                            <td>$294.1B</td>
+                            <td>$12.8B</td>
+                            <td>120.0M ETH</td>
+                            <td class="sparkline">📊</td>
+                            <td>
+                                <button class="btn-small btn-success" onclick="quickBuy('ETH')">Buy</button>
+                                <button class="btn-small btn-danger" onclick="quickSell('ETH')">Sell</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="crypto-info">
+                                <div class="crypto-logo">◎</div>
+                                <div>
+                                    <div class="crypto-name">Solana</div>
+                                    <div class="crypto-symbol">SOL</div>
+                                </div>
+                            </td>
+                            <td class="price">$98.50</td>
+                            <td class="change negative">-1.23%</td>
+                            <td class="change positive">+15.67%</td>
+                            <td>$42.3B</td>
+                            <td>$2.1B</td>
+                            <td>429.7M SOL</td>
+                            <td class="sparkline">📈</td>
+                            <td>
+                                <button class="btn-small btn-success" onclick="quickBuy('SOL')">Buy</button>
+                                <button class="btn-small btn-danger" onclick="quickSell('SOL')">Sell</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="crypto-info">
+                                <div class="crypto-logo">₳</div>
+                                <div>
+                                    <div class="crypto-name">Cardano</div>
+                                    <div class="crypto-symbol">ADA</div>
+                                </div>
+                            </td>
+                            <td class="price">$0.52</td>
+                            <td class="change positive">+5.67%</td>
+                            <td class="change positive">+12.34%</td>
+                            <td>$18.3B</td>
+                            <td>$523M</td>
+                            <td>35.2B ADA</td>
+                            <td class="sparkline">📈</td>
+                            <td>
+                                <button class="btn-small btn-success" onclick="quickBuy('ADA')">Buy</button>
+                                <button class="btn-small btn-danger" onclick="quickSell('ADA')">Sell</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="crypto-info">
+                                <div class="crypto-logo">◈</div>
+                                <div>
+                                    <div class="crypto-name">Polygon</div>
+                                    <div class="crypto-symbol">MATIC</div>
+                                </div>
+                            </td>
+                            <td class="price">$0.89</td>
+                            <td class="change positive">+1.89%</td>
+                            <td class="change negative">-3.45%</td>
+                            <td>$8.2B</td>
+                            <td>$234M</td>
+                            <td>9.2B MATIC</td>
+                            <td class="sparkline">📉</td>
+                            <td>
+                                <button class="btn-small btn-success" onclick="quickBuy('MATIC')">Buy</button>
+                                <button class="btn-small btn-danger" onclick="quickSell('MATIC')">Sell</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="btn btn-secondary" onclick="previousPage()">Previous</button>
+                <span class="page-info">Page 1 of 100</span>
+                <button class="btn btn-secondary" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trade Modal -->
+    <div id="tradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Place Trade</h3>
+                <span class="close" onclick="closeTradeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="tradeForm" onsubmit="executeTrade(event)">
+                    <div class="form-group">
+                        <label for="tradeType">Trade Type</label>
+                        <select id="tradeType" class="form-control" required>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cryptoSelect">Cryptocurrency</label>
+                        <select id="cryptoSelect" class="form-control" required>
+                            <option value="BTC">Bitcoin (BTC)</option>
+                            <option value="ETH">Ethereum (ETH)</option>
+                            <option value="SOL">Solana (SOL)</option>
+                            <option value="ADA">Cardano (ADA)</option>
+                            <option value="MATIC">Polygon (MATIC)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" class="form-control" placeholder="0.00" step="0.00000001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderType">Order Type</label>
+                        <select id="orderType" class="form-control" required>
+                            <option value="market">Market Order</option>
+                            <option value="limit">Limit Order</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="limitPriceGroup" style="display: none;">
+                        <label for="limitPrice">Limit Price</label>
+                        <input type="number" id="limitPrice" class="form-control" placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="trade-summary">
+                        <p><strong>Estimated Total:</strong> <span id="estimatedTotal">$0.00</span></p>
+                        <p><strong>Fee:</strong> <span id="tradeFee">$0.00</span></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Execute Trade</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Status</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">in</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trading Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', filterCryptos);
+        document.getElementById('categoryFilter').addEventListener('change', filterCryptos);
+        document.getElementById('sortBy').addEventListener('change', sortCryptos);
+
+        function filterCryptos() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            
+            // Implementation for filtering cryptocurrencies
+            console.log('Filtering cryptos:', { searchTerm, category });
+        }
+
+        function sortCryptos() {
+            const sortBy = document.getElementById('sortBy').value;
+            console.log('Sorting by:', sortBy);
+        }
+
+        function openTradeModal(crypto = null) {
+            const modal = document.getElementById('tradeModal');
+            if (crypto) {
+                document.getElementById('cryptoSelect').value = crypto;
+            }
+            modal.style.display = 'block';
+        }
+
+        function closeTradeModal() {
+            document.getElementById('tradeModal').style.display = 'none';
+            document.getElementById('tradeForm').reset();
+        }
+
+        function quickBuy(crypto) {
+            document.getElementById('tradeType').value = 'buy';
+            openTradeModal(crypto);
+        }
+
+        function quickSell(crypto) {
+            document.getElementById('tradeType').value = 'sell';
+            openTradeModal(crypto);
+        }
+
+        // Order type change handler
+        document.getElementById('orderType').addEventListener('change', function() {
+            const limitPriceGroup = document.getElementById('limitPriceGroup');
+            if (this.value === 'limit') {
+                limitPriceGroup.style.display = 'block';
+            } else {
+                limitPriceGroup.style.display = 'none';
+            }
+        });
+
+        // Calculate trade totals
+        document.getElementById('amount').addEventListener('input', calculateTradeTotal);
+        document.getElementById('limitPrice').addEventListener('input', calculateTradeTotal);
+
+        function calculateTradeTotal() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const crypto = document.getElementById('cryptoSelect').value;
+            const orderType = document.getElementById('orderType').value;
+            
+            // Sample prices (in real app, these would come from API)
+            const prices = {
+                'BTC': 45230.50,
+                'ETH': 2450.75,
+                'SOL': 98.50,
+                'ADA': 0.52,
+                'MATIC': 0.89
+            };
+            
+            let price = prices[crypto];
+            if (orderType === 'limit') {
+                price = parseFloat(document.getElementById('limitPrice').value) || price;
+            }
+            
+            const total = amount * price;
+            const fee = total * 0.001; // 0.1% fee
+            
+            document.getElementById('estimatedTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('tradeFee').textContent = `$${fee.toFixed(2)}`;
+        }
+
+        function executeTrade(event) {
+            event.preventDefault();
+            
+            const tradeData = {
+                type: document.getElementById('tradeType').value,
+                crypto: document.getElementById('cryptoSelect').value,
+                amount: document.getElementById('amount').value,
+                orderType: document.getElementById('orderType').value,
+                limitPrice: document.getElementById('limitPrice').value
+            };
+            
+            alert(`Trade executed successfully!\n\n${tradeData.type.toUpperCase()} ${tradeData.amount} ${tradeData.crypto}`);
+            closeTradeModal();
+        }
+
+        function previousPage() {
+            console.log('Going to previous page');
+        }
+
+        function nextPage() {
+            console.log('Going to next page');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('tradeModal');
+            if (event.target === modal) {
+                closeTradeModal();
+            }
+        }
+    </script>
+</body>
+</html>

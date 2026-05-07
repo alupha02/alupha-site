@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Trading Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💰 Trading Pro</h1>
+            </div>
+            <nav class="nav">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <a href="goods.html" class="nav-link">Market</a>
+                <a href="portfolio.html" class="nav-link active">Portfolio</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+        <div class="container">
+            <!-- Portfolio Header -->
+            <div class="portfolio-header">
+                <div class="portfolio-title">
+                    <h2>My Portfolio</h2>
+                    <p>Track and manage your cryptocurrency investments</p>
+                </div>
+                <div class="portfolio-actions">
+                    <button class="btn btn-primary" onclick="window.location.href='goods.html'">Add Assets</button>
+                    <button class="btn btn-secondary" onclick="exportPortfolio()">Export</button>
+                </div>
+            </div>
+
+            <!-- Portfolio Summary -->
+            <div class="portfolio-summary">
+                <div class="summary-card total-value">
+                    <div class="card-header">
+                        <h3>Total Portfolio Value</h3>
+                        <span class="card-icon">💰</span>
+                    </div>
+                    <div class="card-value">$125,430.25</div>
+                    <div class="card-change positive">+5.23% ($6,234.15)</div>
+                    <div class="card-subtitle">Last updated: 2 minutes ago</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>24h Change</h3>
+                        <span class="card-icon">📈</span>
+                    </div>
+                    <div class="card-value">+$2,345.67</div>
+                    <div class="card-change positive">+1.91%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Total Profit/Loss</h3>
+                        <span class="card-icon">💹</span>
+                    </div>
+                    <div class="card-value">+$18,234.50</div>
+                    <div class="card-change positive">+17.02%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Assets Held</h3>
+                        <span class="card-icon">🪙</span>
+                    </div>
+                    <div class="card-value">8</div>
+                    <div class="card-change neutral">No change</div>
+                </div>
+            </div>
+
+            <!-- Portfolio Charts -->
+            <div class="portfolio-charts">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Portfolio Performance</h3>
+                        <select id="performancePeriod" onchange="updatePerformanceChart()">
+                            <option value="1D">1 Day</option>
+                            <option value="1W">1 Week</option>
+                            <option value="1M" selected>1 Month</option>
+                            <option value="3M">3 Months</option>
+                            <option value="1Y">1 Year</option>
+                            <option value="ALL">All Time</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Asset Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Holdings Table -->
+            <div class="holdings-section">
+                <div class="section-header">
+                    <h3>Current Holdings</h3>
+                    <div class="view-controls">
+                        <button class="btn-small active" onclick="setView('table')">Table</button>
+                        <button class="btn-small" onclick="setView('grid')">Grid</button>
+                    </div>
+                </div>
+                
+                <div class="holdings-table-container">
+                    <table class="holdings-table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Holdings</th>
+                                <th>Avg Buy Price</th>
+                                <th>Current Price</th>
+                                <th>Market Value</th>
+                                <th>24h Change</th>
+                                <th>Total P&L</th>
+                                <th>% of Portfolio</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="asset-info">
+                                    <div class="asset-logo">₿</div>
+                                    <div>
+                                        <div class="asset-name">Bitcoin</div>
+                                        <div class="asset-symbol">BTC</div>
+                                    </div>
+                                </td>
+                                <td>1.25 BTC</td>
+                                <td>$38,500</td>
+                                <td>$45,230.50</td>
+                                <td>$56,538.13</td>
+                                <td class="change positive">+2.34%</td>
+                                <td class="profit positive">+$8,412.63</td>
+                                <td>45.1%</td>
+                                <td>
+                                    <button class="btn-small" onclick="tradeAsset('BTC')">Trade</button>
+                                    <button class="btn-small" onclick="viewDetails('BTC')">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-info">
+                                    <div class="asset-logo">Ξ</div>
+                                    <div>
+                                        <div class="asset-name">Ethereum</div>
+                                        <div class="asset-symbol">ETH</div>
+                                    </div>
+                                </td>
+                                <td>12.5 ETH</td>
+                                <td>$2,100</td>
+                                <td>$2,450.75</td>
+                                <td>$30,634.38</td>
+                                <td class="change positive">+3.45%</td>
+                                <td class="profit positive">+$4,384.38</td>
+                                <td>24.4%</td>
+                                <td>
+                                    <button class="btn-small" onclick="tradeAsset('ETH')">Trade</button>
+                                    <button class="btn-small" onclick="viewDetails('ETH')">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-info">
+                                    <div class="asset-logo">◎</div>
+                                    <div>
+                                        <div class="asset-name">Solana</div>
+                                        <div class="asset-symbol">SOL</div>
+                                    </div>
+                                </td>
+                                <td>125 SOL</td>
+                                <td>$85.00</td>
+                                <td>$98.50</td>
+                                <td>$12,312.50</td>
+                                <td class="change negative">-1.23%</td>
+                                <td class="profit positive">+$1,687.50</td>
+                                <td>9.8%</td>
+                                <td>
+                                    <button class="btn-small" onclick="tradeAsset('SOL')">Trade</button>
+                                    <button class="btn-small" onclick="viewDetails('SOL')">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-info">
+                                    <div class="asset-logo">₳</div>
+                                    <div>
+                                        <div class="asset-name">Cardano</div>
+                                        <div class="asset-symbol">ADA</div>
+                                    </div>
+                                </td>
+                                <td>8,500 ADA</td>
+                                <td>$0.45</td>
+                                <td>$0.52</td>
+                                <td>$4,420.00</td>
+                                <td class="change positive">+5.67%</td>
+                                <td class="profit positive">+$595.00</td>
+                                <td>3.5%</td>
+                                <td>
+                                    <button class="btn-small" onclick="tradeAsset('ADA')">Trade</button>
+                                    <button class="btn-small" onclick="viewDetails('ADA')">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-info">
+                                    <div class="asset-logo">◈</div>
+                                    <div>
+                                        <div class="asset-name">Polygon</div>
+                                        <div class="asset-symbol">MATIC</div>
+                                    </div>
+                                </td>
+                                <td>5,500 MATIC</td>
+                                <td>$0.75</td>
+                                <td>$0.89</td>
+                                <td>$4,895.00</td>
+                                <td class="change positive">+1.89%</td>
+                                <td class="profit positive">+$770.00</td>
+                                <td>3.9%</td>
+                                <td>
+                                    <button class="btn-small" onclick="tradeAsset('MATIC')">Trade</button>
+                                    <button class="btn-small" onclick="viewDetails('MATIC')">Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="transaction-section">
+                <div class="section-header">
+                    <h3>Recent Transactions</h3>
+                    <a href="orders.html" class="btn-small">View All</a>
+                </div>
+                <div class="transaction-list">
+                    <div class="transaction-item">
+                        <div class="transaction-icon buy">📈</div>
+                        <div class="transaction-details">
+                            <div class="transaction-title">Buy Bitcoin</div>
+                            <div class="transaction-desc">0.25 BTC at $38,500</div>
+                            <div class="transaction-time">Jan 15, 2024 • 14:32</div>
+                        </div>
+                        <div class="transaction-amount">-$9,625.00</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon sell">📉</div>
+                        <div class="transaction-details">
+                            <div class="transaction-title">Sell Ethereum</div>
+                            <div class="transaction-desc">5.0 ETH at $2,450</div>
+                            <div class="transaction-time">Jan 14, 2024 • 09:15</div>
+                        </div>
+                        <div class="transaction-amount">+$12,250.00</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon buy">📈</div>
+                        <div class="transaction-details">
+                            <div class="transaction-title">Buy Solana</div>
+                            <div class="transaction-desc">50 SOL at $85.00</div>
+                            <div class="transaction-time">Jan 13, 2024 • 16:45</div>
+                        </div>
+                        <div class="transaction-amount">-$4,250.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Asset Details Modal -->
+    <div id="assetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Asset Details</h3>
+                <span class="close" onclick="closeAssetModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="assetModalBody">
+                <!-- Asset details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Status</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">in</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trading Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize performance chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Dec 15', 'Dec 22', 'Dec 29', 'Jan 5', 'Jan 12', 'Jan 15'],
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: [105000, 108000, 112000, 118000, 121000, 125430],
+                    borderColor: '#0066ff',
+                    backgroundColor: 'rgba(0, 102, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + (value / 1000) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize distribution chart
+        const ctx2 = document.getElementById('distributionChart').getContext('2d');
+        const distributionChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bitcoin', 'Ethereum', 'Solana', 'Cardano', 'Polygon', 'Others'],
+                datasets: [{
+                    data: [45.1, 24.4, 9.8, 3.5, 3.9, 13.3],
+                    backgroundColor: [
+                        '#f7931a',
+                        '#627eea',
+                        '#00d4ff',
+                        '#0033ad',
+                        '#8247e5',
+                        '#6c757d'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        function updatePerformanceChart() {
+            const period = document.getElementById('performancePeriod').value;
+            // Update chart data based on period
+            console.log('Updating performance chart for period:', period);
+        }
+
+        function setView(view) {
+            const buttons = document.querySelectorAll('.view-controls .btn-small');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            console.log('Setting view to:', view);
+        }
+
+        function tradeAsset(asset) {
+            window.location.href = `goods.html?trade=${asset}`;
+        }
+
+        function viewDetails(asset) {
+            const modal = document.getElementById('assetModal');
+            const modalBody = document.getElementById('assetModalBody');
+            
+            // Sample asset details
+            const assetData = {
+                'BTC': {
+                    name: 'Bitcoin',
+                    holdings: '1.25 BTC',
+                    avgBuyPrice: '$38,500',
+                    currentPrice: '$45,230.50',
+                    marketValue: '$56,538.13',
+                    totalProfit: '+$8,412.63',
+                    profitPercent: '+17.5%'
+                },
+                'ETH': {
+                    name: 'Ethereum',
+                    holdings: '12.5 ETH',
+                    avgBuyPrice: '$2,100',
+                    currentPrice: '$2,450.75',
+                    marketValue: '$30,634.38',
+                    totalProfit: '+$4,384.38',
+                    profitPercent: '+16.7%'
+                }
+            };
+            
+            const data = assetData[asset] || assetData['BTC'];
+            
+            modalBody.innerHTML = `
+                <div class="asset-detail">
+                    <h4>${data.name} Holdings</h4>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Current Holdings:</label>
+                            <span>${data.holdings}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Average Buy Price:</label>
+                            <span>${data.avgBuyPrice}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Current Price:</label>
+                            <span>${data.currentPrice}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Market Value:</label>
+                            <span>${data.marketValue}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Total Profit:</label>
+                            <span class="profit">${data.totalProfit}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Profit %:</label>
+                            <span class="profit">${data.profitPercent}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeAssetModal() {
+            document.getElementById('assetModal').style.display = 'none';
+        }
+
+        function exportPortfolio() {
+            alert('Portfolio exported successfully! (CSV file downloaded)');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('assetModal');
+            if (event.target === modal) {
+                closeAssetModal();
+            }
+        }
+    </script>
+</body>
+</html>

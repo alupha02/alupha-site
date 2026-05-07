@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Trading Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💰 Trading Pro</h1>
+            </div>
+            <nav class="nav">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <a href="goods.html" class="nav-link">Market</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Header -->
+            <div class="dashboard-header">
+                <div class="welcome-info">
+                    <h2>Welcome back, Trader!</h2>
+                    <p>Here's your trading overview for today</p>
+                </div>
+                <div class="dashboard-time">
+                    <span id="currentTime"></span>
+                </div>
+            </div>
+
+            <!-- Portfolio Summary Cards -->
+            <div class="portfolio-summary">
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Total Portfolio Value</h3>
+                        <span class="card-icon">💰</span>
+                    </div>
+                    <div class="card-value">$125,430.25</div>
+                    <div class="card-change positive">+5.23% ($6,234.15)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Today's P&L</h3>
+                        <span class="card-icon">📈</span>
+                    </div>
+                    <div class="card-value">+$2,345.67</div>
+                    <div class="card-change positive">+1.91%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Available Balance</h3>
+                        <span class="card-icon">💵</span>
+                    </div>
+                    <div class="card-value">$15,230.00</div>
+                    <div class="card-change neutral">No change</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h3>Active Positions</h3>
+                        <span class="card-icon">📊</span>
+                    </div>
+                    <div class="card-value">12</div>
+                    <div class="card-change positive">+2 new</div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-container">
+                <!-- Main Chart -->
+                <div class="chart-card main-chart">
+                    <div class="chart-header">
+                        <h3>Portfolio Performance</h3>
+                        <div class="chart-controls">
+                            <select id="chartPeriod" onchange="updateMainChart()">
+                                <option value="1D">1 Day</option>
+                                <option value="1W" selected>1 Week</option>
+                                <option value="1M">1 Month</option>
+                                <option value="3M">3 Months</option>
+                                <option value="1Y">1 Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Asset Allocation</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="allocationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Overview & Recent Activity -->
+            <div class="dashboard-grid">
+                <!-- Market Overview -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Market Overview</h3>
+                        <button class="btn-small" onclick="refreshMarketData()">Refresh</button>
+                    </div>
+                    <div class="market-overview-list">
+                        <div class="market-item">
+                            <div class="market-info">
+                                <span class="crypto-symbol">BTC</span>
+                                <span class="crypto-name">Bitcoin</span>
+                            </div>
+                            <div class="market-price">$45,230.50</div>
+                            <div class="market-change positive">+2.34%</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="market-info">
+                                <span class="crypto-symbol">ETH</span>
+                                <span class="crypto-name">Ethereum</span>
+                            </div>
+                            <div class="market-price">$2,450.75</div>
+                            <div class="market-change positive">+3.45%</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="market-info">
+                                <span class="crypto-symbol">SOL</span>
+                                <span class="crypto-name">Solana</span>
+                            </div>
+                            <div class="market-price">$98.50</div>
+                            <div class="market-change negative">-1.23%</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="market-info">
+                                <span class="crypto-symbol">ADA</span>
+                                <span class="crypto-name">Cardano</span>
+                            </div>
+                            <div class="market-price">$0.52</div>
+                            <div class="market-change positive">+5.67%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <a href="orders.html" class="btn-small">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon buy">📈</div>
+                            <div class="activity-details">
+                                <div class="activity-title">Buy BTC</div>
+                                <div class="activity-desc">0.5 BTC at $45,230</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                            <div class="activity-value">+$22,615</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon sell">📉</div>
+                            <div class="activity-details">
+                                <div class="activity-title">Sell ETH</div>
+                                <div class="activity-desc">2.0 ETH at $2,450</div>
+                                <div class="activity-time">5 hours ago</div>
+                            </div>
+                            <div class="activity-value">-$4,900</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon buy">📈</div>
+                            <div class="activity-details">
+                                <div class="activity-title">Buy SOL</div>
+                                <div class="activity-desc">10 SOL at $98.50</div>
+                                <div class="activity-time">1 day ago</div>
+                            </div>
+                            <div class="activity-value">+$985</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon pending">⏳</div>
+                            <div class="activity-details">
+                                <div class="activity-title">Limit Order</div>
+                                <div class="activity-desc">Buy ADA at $0.50</div>
+                                <div class="activity-time">2 days ago</div>
+                            </div>
+                            <div class="activity-value">Pending</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="window.location.href='goods.html'">
+                        <span class="btn-icon">📈</span>
+                        Quick Trade
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='portfolio.html'">
+                        <span class="btn-icon">💼</span>
+                        View Portfolio
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='orders.html'">
+                        <span class="btn-icon">📋</span>
+                        Order History
+                    </button>
+                    <button class="btn btn-secondary" onclick="showDepositModal()">
+                        <span class="btn-icon">💰</span>
+                        Deposit Funds
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Deposit Funds</h3>
+                <span class="close" onclick="closeDepositModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="processDeposit(event)">
+                    <div class="form-group">
+                        <label for="depositAmount">Amount</label>
+                        <input type="number" id="depositAmount" class="form-control" placeholder="0.00" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="crypto">Cryptocurrency</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Deposit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Status</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">in</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trading Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Initialize portfolio chart
+        const ctx = document.getElementById('portfolioChart').getContext('2d');
+        const portfolioChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: [118000, 119500, 121200, 120800, 122300, 124100, 125430],
+                    borderColor: '#0066ff',
+                    backgroundColor: 'rgba(0, 102, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize allocation chart
+        const ctx2 = document.getElementById('allocationChart').getContext('2d');
+        const allocationChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bitcoin', 'Ethereum', 'Solana', 'Cardano', 'Others'],
+                datasets: [{
+                    data: [45, 25, 15, 10, 5],
+                    backgroundColor: [
+                        '#f7931a',
+                        '#627eea',
+                        '#00d4ff',
+                        '#0033ad',
+                        '#6c757d'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        function updateMainChart() {
+            const period = document.getElementById('chartPeriod').value;
+            // Update chart data based on period
+            console.log('Updating chart for period:', period);
+        }
+
+        function refreshMarketData() {
+            // Simulate refreshing market data
+            alert('Market data refreshed!');
+        }
+
+        function showDepositModal() {
+            document.getElementById('depositModal').style.display = 'block';
+        }
+
+        function closeDepositModal() {
+            document.getElementById('depositModal').style.display = 'none';
+        }
+
+        function processDeposit(event) {
+            event.preventDefault();
+            const amount = document.getElementById('depositAmount').value;
+            const method = document.getElementById('paymentMethod').value;
+            
+            alert(`Deposit of $${amount} via ${method} initiated!`);
+            closeDepositModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const depositModal = document.getElementById('depositModal');
+            if (event.target === depositModal) {
+                closeDepositModal();
+            }
+        }
+    </script>
+</body>
+</html>

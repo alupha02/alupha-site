@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Trading Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>💰 Trading Pro</h1>
+            </div>
+            <nav class="nav">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="orders.html" class="nav-link active">Orders</a>
+                <a href="goods.html" class="nav-link">Market</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Orders Section -->
+    <section class="orders-section">
+        <div class="container">
+            <div class="orders-header">
+                <h2>Order History</h2>
+                <div class="orders-controls">
+                    <div class="filter-group">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <select id="typeFilter" class="filter-select">
+                            <option value="all">All Types</option>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                        <input type="date" id="dateFilter" class="filter-input">
+                    </div>
+                    <button class="btn btn-primary" onclick="createNewOrder()">New Order</button>
+                </div>
+            </div>
+
+            <!-- Order Statistics -->
+            <div class="order-stats">
+                <div class="stat-card">
+                    <h3>Total Orders</h3>
+                    <p class="stat-value">247</p>
+                    <span class="stat-change positive">+12.5%</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed</h3>
+                    <p class="stat-value">189</p>
+                    <span class="stat-change positive">+8.3%</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending</h3>
+                    <p class="stat-value">45</p>
+                    <span class="stat-change neutral">0%</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Volume</h3>
+                    <p class="stat-value">$1.2M</p>
+                    <span class="stat-change positive">+24.7%</span>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Asset</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td>#ORD-2024-001</td>
+                            <td>2024-01-15 14:32</td>
+                            <td><span class="order-type buy">BUY</span></td>
+                            <td>BTC</td>
+                            <td>0.5</td>
+                            <td>$45,230</td>
+                            <td>$22,615</td>
+                            <td><span class="status completed">Completed</span></td>
+                            <td>
+                                <button class="btn-small" onclick="viewOrderDetails('ORD-2024-001')">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-2024-002</td>
+                            <td>2024-01-15 15:45</td>
+                            <td><span class="order-type sell">SELL</span></td>
+                            <td>ETH</td>
+                            <td>2.0</td>
+                            <td>$2,450</td>
+                            <td>$4,900</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td>
+                                <button class="btn-small" onclick="viewOrderDetails('ORD-2024-002')">View</button>
+                                <button class="btn-small btn-danger" onclick="cancelOrder('ORD-2024-002')">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-2024-003</td>
+                            <td>2024-01-14 09:15</td>
+                            <td><span class="order-type buy">BUY</span></td>
+                            <td>ADA</td>
+                            <td>1000</td>
+                            <td>$0.52</td>
+                            <td>$520</td>
+                            <td><span class="status completed">Completed</span></td>
+                            <td>
+                                <button class="btn-small" onclick="viewOrderDetails('ORD-2024-003')">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-2024-004</td>
+                            <td>2024-01-14 11:22</td>
+                            <td><span class="order-type sell">SELL</span></td>
+                            <td>SOL</td>
+                            <td>5.0</td>
+                            <td>$98.50</td>
+                            <td>$492.50</td>
+                            <td><span class="status cancelled">Cancelled</span></td>
+                            <td>
+                                <button class="btn-small" onclick="viewOrderDetails('ORD-2024-004')">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="btn btn-secondary" onclick="previousPage()">Previous</button>
+                <span class="page-info">Page 1 of 10</span>
+                <button class="btn btn-secondary" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="orderModalBody">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Status</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">in</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trading Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        document.getElementById('statusFilter').addEventListener('change', filterOrders);
+        document.getElementById('typeFilter').addEventListener('change', filterOrders);
+        document.getElementById('dateFilter').addEventListener('change', filterOrders);
+
+        function filterOrders() {
+            const status = document.getElementById('statusFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const date = document.getElementById('dateFilter').value;
+            
+            // Implementation for filtering orders
+            console.log('Filtering orders:', { status, type, date });
+        }
+
+        function viewOrderDetails(orderId) {
+            const modal = document.getElementById('orderModal');
+            const modalBody = document.getElementById('orderModalBody');
+            
+            // Sample order details
+            modalBody.innerHTML = `
+                <div class="order-detail">
+                    <h4>Order Information</h4>
+                    <p><strong>Order ID:</strong> ${orderId}</p>
+                    <p><strong>Date:</strong> 2024-01-15 14:32:00</p>
+                    <p><strong>Type:</strong> Buy</p>
+                    <p><strong>Status:</strong> Completed</p>
+                </div>
+                <div class="order-detail">
+                    <h4>Trading Details</h4>
+                    <p><strong>Asset:</strong> BTC</p>
+                    <p><strong>Quantity:</strong> 0.5</p>
+                    <p><strong>Price:</strong> $45,230</p>
+                    <p><strong>Total:</strong> $22,615</p>
+                </div>
+                <div class="order-detail">
+                    <h4>Transaction Details</h4>
+                    <p><strong>Transaction ID:</strong> TXN-2024-001</p>
+                    <p><strong>Fee:</strong> $22.62</p>
+                    <p><strong>Net Amount:</strong> $22,592.38</p>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function cancelOrder(orderId) {
+            if (confirm(`Are you sure you want to cancel order ${orderId}?`)) {
+                alert(`Order ${orderId} has been cancelled.`);
+                // Update the order status in the table
+            }
+        }
+
+        function createNewOrder() {
+            window.location.href = 'goods.html';
+        }
+
+        function previousPage() {
+            console.log('Going to previous page');
+        }
+
+        function nextPage() {
+            console.log('Going to next page');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
